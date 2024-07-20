@@ -10,6 +10,7 @@ export default class InstructorController {
             if (!allInstructors) {
                 return res.status(400).json({
                     data: {
+                        allInstructors,
                         message: "Instructor data not found",
                         status: 400,
                         success: true
@@ -17,16 +18,22 @@ export default class InstructorController {
                 })
             }
             return res.status(200).json({
-                data: allInstructors,
-                message: "Instrutor data fetch successfully",
-                status: 200,
-                success: true
+                data: {
+                    allInstructors,
+                    message: "Instrutor data fetch successfully",
+                    status: 200,
+                    success: true
+                }
             })
         } catch (error) {
             console.log("Error while showing students", error);
             return res.status(500).json({
-                message: "Something went wrongs",
-                status: 500,
+                data: {
+                    data: {},
+                    message: "Something went wrongs",
+                    status: 500,
+                    success: false
+                }
             });
         }
     }
@@ -50,31 +57,41 @@ export default class InstructorController {
             console.log(instructor);
             if (!instructor) {
                 return res.status(400).json({
-                    data: instructor,
-                    message: "Failed to add instructor",
-                    status: 400,
-                    success: false
+                    data: {
+                        instructor,
+                        message: "Failed to add instructor",
+                        status: 400,
+                        success: false
+                    }
                 })
             }
             return res.status(200).json({
-                data: instructor,
-                message: "Intructor added successfully",
-                status: 200,
-                success: true
+                data: {
+                    instructor,
+                    message: "Intructor added successfully",
+                    status: 200,
+                    success: true
+                }
             })
         } catch (error) {
             console.log("Error while adding student", error);
             if (error.message == "Something went wrong while adding student to database") {
-                return res.status(500).json({
-                    message: "Instructor with this email already present",
-                    status: 500,
-                    success: false
+                return res.status(400).json({
+                    data: {
+                        data: {},
+                        message: "Instructor with this email already present",
+                        status: 400,
+                        success: false
+                    }
                 });
             } else {
                 return res.status(500).json({
-                    message: "Something went wrongs",
-                    status: 500,
-                    success: false
+                    data: {
+                        data: {},
+                        message: "Something went wrongs",
+                        status: 500,
+                        success: false
+                    }
                 });
             }
         }

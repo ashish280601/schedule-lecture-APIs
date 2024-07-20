@@ -13,18 +13,6 @@ export default class InstructorRepository {
     }
   }
 
-  async addInstructor(req, res) {
-    try {
-      const { name, email, depart } = req.body;
-      const newInstructor = new Instructor({ name, email });
-      await newInstructor.save();
-      res.status(201).json(newInstructor);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Server Error" });
-    }
-  };
-
   async addInstructor(newUser) {
     console.log(newUser);
     try {
