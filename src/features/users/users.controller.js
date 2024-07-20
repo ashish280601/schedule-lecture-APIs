@@ -5,41 +5,7 @@ export default class UserController {
     constructor() {
       this.userRepository = new UserRepository();
     }
-
-    async signUp(req, res) {
-        try {
-          const { name, email, password, type } = req.body;
-          // encrypting my password
-          const hashPassword = await bcrypt.hash(password, 10);
     
-          const user = { name, email, password: hashPassword, type };
-    
-          const newUser = await this.userRepository.signUp(user);
-          return res.status(201).json({
-            data: newUser,
-            message: "Account created successfully",
-            status: true,
-          });
-        } catch (error) {
-          console.log("Error while creating accound", error);
-          if (
-            error.message ===
-            "Something went wrong in database while adding new user"
-          ) {
-            return res.status(400).json({
-              data: error,
-              message: "User Already Exist!",
-              status: false,
-            });
-          }
-          return res.status(500).json({
-            data: error,
-            message: "Something went wrongs while creating an account",
-            status: false,
-          });
-        }
-      }
-
     async signIn(req, res) {
       try {
         const { email, password } = req.body;
