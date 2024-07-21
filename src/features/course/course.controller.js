@@ -41,6 +41,7 @@ export default class CourseController {
     async addCourseData(req, res) {
         const { name, level, description } = req.body;
         const file = req.file;
+        console.log("file", file);
 
         if (!file) {
             return res.status(400).json({
@@ -86,11 +87,11 @@ export default class CourseController {
             })
         } catch (error) {
             console.log("Error while adding student", error);
-            if (error.message == "Something went wrong while adding student to database") {
+            if (error.message) {
                 return res.status(400).json({
                     data: {
                         data: {},
-                        message: "Course already present",
+                        message: "Course Already Present",
                         status: 400,
                         success: false
                     }
