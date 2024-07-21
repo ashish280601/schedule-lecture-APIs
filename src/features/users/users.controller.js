@@ -43,7 +43,8 @@ export default class UserController {
                 role: user.type,
               },
               message: "Login Successful",
-              status: true,
+              status: 200,
+              success: true
             },
           });
         }
