@@ -38,6 +38,10 @@ export default class UserController {
             return res.status(200).json({
               data: {
                 token,
+                  userData: {
+                email: user.email,
+                role: user.type,
+              }, 
                 message: "Login Successful",
                 status: true,
               },
