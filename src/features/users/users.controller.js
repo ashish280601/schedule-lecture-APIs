@@ -43,16 +43,14 @@ export default class UserController {
                 role: user.type,
               },
               message: "Login Successful",
-              status: 200,
-              success: true
+              status: true,
             },
           });
         }
         return res.status(400).json({
           data: {},
           message: "Invalid Password Credential",
-          status: 400,
-          success: false
+          status: false,
         });
       }
     } catch (error) {
@@ -60,9 +58,9 @@ export default class UserController {
       return res.status(500).json({
         data: {},
         message: "Something went wrongs while login an account",
-        status: 500,
-        success: false
+        status: false,
       });
     }
   }
 }
+
