@@ -61,31 +61,48 @@ export default class LectureRepository {
         }
     };
 
-    async findOverlappingLecture(instructorId, date, startTime, endTime) {
+    // async findOverlappingLecture(instructorId, date, startTime, endTime) {
+    //     try {
+    //         const start = new Date(date);
+    //         const end = new Date(date);
+
+    //         // Set the time for start and end
+    //         start.setHours(startTime.getHours(), startTime.getMinutes(), startTime.getSeconds());
+    //         end.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds());
+
+    //         // Find overlapping lectures
+    //         return await LectureModel.findOne({
+    //             instructor: new mongoose.Types.ObjectId(instructorId),
+    //             date: date, // Ensure the date matches
+    //             $or: [
+    //                 {
+    //                     // Case when existing lecture starts before and ends after the new lecture's start time
+    //                     startTime: { $lt: end },
+    //                     endTime: { $gt: start }
+    //                 },
+    //                 {
+    //                     // Case when the new lecture starts before and ends after an existing lecture
+    //                     startTime: { $lt: end },
+    //                     endTime: { $gt: start }
+    //                 }
+    //             ]
+    //         });
+    //     } catch (error) {
+    //         console.error("Error while finding overlapping lecture:", error);
+    //         return null; // Return null or handle the error as needed
+    //     }
+    // }
+    async findOverlappingLecture(instructorId, date) {
         try {
-            const start = new Date(date);
-            const end = new Date(date);
-
-            // Set the time for start and end
-            start.setHours(startTime.getHours(), startTime.getMinutes(), startTime.getSeconds());
-            end.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds());
-
-            // Find overlapping lectures
+            const startOfDay = new Date(date);
+            startOfDay.setHours(0, 0, 0, 0);
+    
+            const endOfDay = new Date(date);
+            endOfDay.setHours(23, 59, 59, 999);
+    
             return await LectureModel.findOne({
                 instructor: new mongoose.Types.ObjectId(instructorId),
-                date: date, // Ensure the date matches
-                $or: [
-                    {
-                        // Case when existing lecture starts before and ends after the new lecture's start time
-                        startTime: { $lt: end },
-                        endTime: { $gt: start }
-                    },
-                    {
-                        // Case when the new lecture starts before and ends after an existing lecture
-                        startTime: { $lt: end },
-                        endTime: { $gt: start }
-                    }
-                ]
+                date: { $gte: startOfDay, $lte: endOfDay }
             });
         } catch (error) {
             console.error("Error while finding overlapping lecture:", error);

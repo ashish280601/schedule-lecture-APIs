@@ -67,7 +67,7 @@ export default class LectureController {
                 });
             }
 
-            // Check for scheduling conflicts
+             // Check for scheduling conflicts on the same date
             const overlappingLecture = await this.lectureRepository.findOverlappingLecture(
                 instructor,
                 lectureDate,
